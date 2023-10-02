@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Índice de Massa Corporal</title>
+
+    <style>
+        h1 {
+            color: rgb(17, 216, 216);
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+            margin-bottom: 5%;
+        }
+
+        .dados {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        label {
+            display: block;
+        }
+
+        input {
+            margin-bottom: 10px;
+        }
+
+        input[type=radio] {
+            margin-bottom: 20px;
+        }
+
+        p {
+            text-align: center;
+            width: 100%;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        #img {
+            display: none;
+        }
+
+        #img > img {
+            display: block;
+            margin: 0 auto;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #magreza, #peso-normal, #sobrepeso, #obesidade-1, #obesidade-2, #obesidade-3 {
+            display: none;
+        }
+
+        #magreza > p, #peso-normal > p, #sobrepeso > p, #obesidade-1 > p, #obesidade-2 > p, #obesidade-3 > p {
+            text-align: left;
+            width: 50%;
+            margin: 0 auto;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Índice de Massa Corporal (IMC)</h1>
+    <div class="container">
+        <div class="imc">
+            <div class="dados">
+                <form action="index.html">
+                    <label for="inMassa">Massa (em Kg):</label>
+                    <input type="number" name="campo_massa" id="inMassa">
+                    <label for="inAltura">Altura (em M):</label>
+                    <input type="number" name="campo_altura" id="inAltura">
+
+                    <div class="botoes">
+                        <input type="button" value="Calcular" id="btnCalcular">
+                        <input type="reset" value="Limpar" id="btnLimpar">
+                    </div>
+                </form>
+            </div>
+            <p id="valor"></p>
+            <h2 id="outClassificacao"></h2>
+            <div id="magreza">
+                <p>Estado em que o organismo contém poucas ou nenhumas gorduras, tornando-se o corpo delgado.</p>
+            </div>
+            <div id="peso-normal">
+                <p>Você está no seu peso ideal</p>
+            </div>
+            <div id="sobrepeso">
+                <p>O sobrepeso está relacionado a um percentual menor quando comparado à obesidade, que tem a quantidade de gordura maior e maior probabilidade de impactar na saúde como um todo. Mas o sobrepeso também é a quantidade de gordura acima do ideal.</p>
+            </div>
+            <div id="obesidade-1">
+                <p>A obesidade tipo 1 é considerada a forma mais leve de obesidade e, mesmo assim, já pode causar problemas de saúde.</p>
+            </div>
+            <div id="obesidade-2">
+                <p>Nesse estágio, também conhecido como obesidade moderada, os riscos para a saúde são mais elevados e, por isso, é recomendado fazer um acompanhamento médico mais rigoroso, com o apoio de um endocrinologista, por exemplo. A rotina de exercícios físicos, com foco nos aeróbicos para aumentar o gasto calórico, e o acompanhamento de uma mudança profunda nos hábitos alimentares já se faz necessária para reverter a situação da obesidade grau 2. </p>
+            </div>
+            <div id="obesidade-3">
+                <p>É o grau mais agressivo, também conhecido como obesidade mórbida ou grave. A realização de um tratamento adequado pode ajudar a melhorar a qualidade de vida da pessoa, mas é provável que já existam mais de uma doença associada ao peso. Existem algumas opções cirúrgicas para a obesidade mórbida, como a cirurgia bariátrica. Porém, cada caso deve ser analisado individualmente por uma equipe multidisciplinar que envolvem nutricionistas, médicos especialistas e psicólogos. Apenas com o acordo desses profissionais é possível indicar o melhor tratamento para cada pessoa que tenha obesidade grau 3. </p>
+            </div>
+            <div id="img">
+                <img src="tabela-imc.png" alt="Tabela" width="400px">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calcular() {
+            let massa = document.getElementById("inMassa").value;
+            let altura = document.getElementById("inAltura").value;
+            if (altura > 100) {
+                altura = altura / 100;
+            }
+            let magreza = document.getElementById("magreza");
+            let normal = document.getElementById("peso-normal");
+            let sobrepeso = document.getElementById("sobrepeso");
+            let ob1 = document.getElementById("obesidade-1");
+            let ob2 = document.getElementById("obesidade-2");
+            let ob3 = document.getElementById("obesidade-3");
+
+            let resultado = massa / (altura ** 2);
+
+                if (resultado < 18.5) {
+                    document.getElementById("outClassificacao").style.color = "red";
+                    document.getElementById("outClassificacao").innerHTML = "<p>Baixo peso</p>";
+                    magreza.style.display = "block";
+                } else if (resultado > 18.5 && resultado <= 24.9) {
+                    document.getElementById("outClassificacao").style.color = "green";
+                    document.getElementById("outClassificacao").innerHTML = "<p>Peso normal</p>";
+                    normal.style.display = "block";
+                } else if (resultado > 25 && resultado <= 29.9) {
+                    document.getElementById("outClassificacao").style.color = "orange";
+                    document.getElementById("outClassificacao").innerHTML = "<p>Sobrepeso</p>";
+                    sobrepeso.style.display = "block";
+                } else if (resultado > 30 && resultado <= 34.9) {
+                    document.getElementById("outClassificacao").style.color = "red";
+                    document.getElementById("outClassificacao").innerHTML = "<p>Obesidade grau I</p>";
+                    ob1.style.display = "block";
+                } else if (resultado > 35 && resultado < 39.9) {
+                    document.getElementById("outClassificacao").style.color = "darkred" ;
+                    document.getElementById("outClassificacao").innerHTML = "<p>Obesidade grau II</p>";
+                    ob2.style.display = "block";
+                } else if (resultado > 40) {
+                    document.getElementById("outClassificacao").style.color = "purple";
+                    document.getElementById("outClassificacao").innerHTML = "<p>Obesidade grau III</p>";
+                    ob3.style.display = "block";
+                }
+                document.getElementById("valor").innerHTML = `${resultado.toFixed(0)}kg/m²`;
+                document.getElementById("img").style.display = "block";
+            }
+
+        document.getElementById("btnCalcular").addEventListener("click", calcular);
+
+        function limpar() {
+            document.getElementById("inMassa").value = "";
+            document.getElementById("inAltura").value = "";
+        }
+
+        document.getElementById("btnLimpar").addEventListener("click", limpar);
+    </script>
+</body>
+</html>
